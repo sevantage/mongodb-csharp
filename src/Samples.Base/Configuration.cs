@@ -14,6 +14,8 @@ namespace Samples.Base
 
         public string SampleRestaurantsDatabaseName { get; set; } = "sample_restaurants";
 
+        public string TestDatabaseName { get; set; } = "mongodb-csharp";
+
         public string Sample { get; set; } = string.Empty;
     }
 }

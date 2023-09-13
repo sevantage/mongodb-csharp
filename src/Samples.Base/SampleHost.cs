@@ -28,35 +28,50 @@ namespace Samples.Base
             _clientBldr = clientBldr;
         }
 
-        public async Task RunAsync()
+        public Task RunAsync()
         {
             var sampleToRun = GetSampleToRun();
             Console.WriteLine($"Running sample {sampleToRun.GetType().FullName}");
             Console.WriteLine(new string('-', 50));
             var client = _clientBldr(_config);
-            var sampleWithMoviesDb = sampleToRun as IMovieSample;
-            if (sampleWithMoviesDb != null)
+
+            switch (sampleToRun)
             {
-                var db = client.GetDatabase(_config.SampleMoviesDatabaseName);
-                var coll = db.GetCollection<Movie>("movies");
-                await sampleWithMoviesDb.RunAsync(coll, db, _config);
-                return;
-            }
-            var sampleWithRestaurantsDb = sampleToRun as IRestaurantsSample;
-            if (sampleWithRestaurantsDb != null)
-            {
-                var db = client.GetDatabase(_config.SampleRestaurantsDatabaseName);
-                var coll = db.GetCollection<Restaurant>("restaurants");
-                await sampleWithRestaurantsDb.RunAsync(coll, db, _config);
-                return;
-            }
-            var sampleWithClient = sampleToRun as ISampleWithClient;
-            if (sampleWithClient != null)
-            {
-                await sampleWithClient.RunAsync(client, _config);
-                return;
+                case IMovieSample movieSample:
+                    return RunSampleAsync(client, movieSample);
+                case IRestaurantsSample restaurantsSample:
+                    return RunSampleAsync(client, restaurantsSample);
+                case ITestDatabaseSample testSample:
+                    return RunSampleAsync(client, testSample);
+                case ISampleWithClient clientSample:
+                    return RunSampleAsync(client, clientSample);
             }
             throw new InvalidOperationException($"{sampleToRun.GetType().FullName} does not implement ISampleWithClient, IMovieSample or IRestaurantsSample.");
+        }
+
+        private Task RunSampleAsync(IMongoClient client, IMovieSample movieSample)
+        {
+            var db = client.GetDatabase(_config.SampleMoviesDatabaseName);
+            var coll = db.GetCollection<Movie>("movies");
+            return movieSample.RunAsync(coll, db, _config);
+        }
+
+        private Task RunSampleAsync(IMongoClient client, IRestaurantsSample restaurantsSample)
+        {
+            var db = client.GetDatabase(_config.SampleRestaurantsDatabaseName);
+            var coll = db.GetCollection<Restaurant>("restaurants");
+            return restaurantsSample.RunAsync(coll, db, _config);
+        }
+
+        private Task RunSampleAsync(IMongoClient client, ITestDatabaseSample testSample)
+        {
+            var db = client.GetDatabase(_config.TestDatabaseName);
+            return testSample.RunAsync(db, _config);
+        }
+
+        private Task RunSampleAsync(IMongoClient client, ISampleWithClient clientSample)
+        {
+            return clientSample.RunAsync(client, _config);
         }
 
         private ISample GetSampleToRun()

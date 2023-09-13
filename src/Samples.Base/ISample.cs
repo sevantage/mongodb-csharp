@@ -25,4 +25,9 @@ namespace Samples.Base
     {
         Task RunAsync(IMongoCollection<Restaurant> restaurants, IMongoDatabase db, Configuration config);
     }
+
+    public interface ITestDatabaseSample : ISample
+    {
+        Task RunAsync(IMongoDatabase db, Configuration config);
+    }
 }
