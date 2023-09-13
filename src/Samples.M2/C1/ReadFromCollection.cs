@@ -13,7 +13,7 @@ namespace Samples.M2.C1
     {
         public async Task RunAsync(IMongoClient client, Configuration config)
         {
-            var db = client.GetDatabase(config.SampleDatabaseName);
+            var db = client.GetDatabase(config.SampleMoviesDatabaseName);
             var coll = db.GetCollection<BsonDocument>("movies");
             var allDocs = (await coll.FindAsync(FilterDefinition<BsonDocument>.Empty)).ToEnumerable();
             Console.WriteLine($"Read {allDocs.Count()} documents");

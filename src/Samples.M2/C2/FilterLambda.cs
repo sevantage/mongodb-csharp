@@ -8,12 +8,11 @@ using System.Threading.Tasks;
 
 namespace Samples.M2.C2
 {
-    internal class FilterLambda : ISampleWithDatabase
+    internal class FilterLambda : IMovieSample
     {
-        public async Task RunAsync(IMongoDatabase db, Configuration config)
+        public async Task RunAsync(IMongoCollection<Movie> movies, IMongoDatabase db, Configuration config)
         {
-            var coll = db.GetCollection<Movie>("movies");
-            var docs = await (await coll.FindAsync(x => x.Title == "The Godfather" && x.Year >= 1970)).ToListAsync();
+            var docs = await (await movies.FindAsync(x => x.Title == "The Godfather" && x.Year >= 1970)).ToListAsync();
             Console.WriteLine($"Retrieved {docs.Count} documents");
         }
     }

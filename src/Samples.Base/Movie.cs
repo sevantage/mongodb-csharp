@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using Samples.Base.Serialization;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,7 @@ namespace Samples.Base
     public class Movie
     {
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
-        [BsonIgnoreIfDefault]
-        [BsonDefaultValue("")]
-        public string Id { get; set; } = string.Empty;
+        public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
 
         [BsonElement("title")]
         public string Title { get; set; } = string.Empty;
@@ -28,5 +27,8 @@ namespace Samples.Base
 
         [BsonElement("genres")]
         public ICollection<string> Genres { get; set; } = new List<string>();
+
+        [BsonElement("num_mflix_comments")]
+        public int NumberOfComments { get; set; }
     }
 }

@@ -8,14 +8,13 @@ using System.Threading.Tasks;
 
 namespace Samples.M2.C2
 {
-    internal class FilterBuilder : ISampleWithDatabase
+    internal class FilterBuilder : IMovieSample
     {
-        public async Task RunAsync(IMongoDatabase db, Configuration config)
+        public async Task RunAsync(IMongoCollection<Movie> movies, IMongoDatabase db, Configuration config)
         {
-            var coll = db.GetCollection<Movie>("movies");
             var filter = Builders<Movie>.Filter.Eq(x => x.Title, "The Godfather")
                 & Builders<Movie>.Filter.Gte(x => x.Year, 1970);
-            var docs = await (await coll.FindAsync(filter)).ToListAsync();
+            var docs = await (await movies.FindAsync(filter)).ToListAsync();
             Console.WriteLine($"Retrieved {docs.Count} documents");
         }
     }

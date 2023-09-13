@@ -16,8 +16,13 @@ namespace Samples.Base
         Task RunAsync(IMongoClient client, Configuration config);
     }
 
-    public interface ISampleWithDatabase : ISample
+    public interface IMovieSample : ISample
     {
-        Task RunAsync(IMongoDatabase db, Configuration config);
+        Task RunAsync(IMongoCollection<Movie> movies, IMongoDatabase db, Configuration config);
+    }
+
+    public interface IRestaurantsSample : ISample
+    {
+        Task RunAsync(IMongoCollection<Restaurant> restaurants, IMongoDatabase db, Configuration config);
     }
 }

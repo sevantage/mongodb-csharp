@@ -32,12 +32,22 @@ namespace Samples.Base
         {
             var sampleToRun = GetSampleToRun();
             Console.WriteLine($"Running sample {sampleToRun.GetType().FullName}");
+            Console.WriteLine(new string('-', 50));
             var client = _clientBldr(_config);
-            var sampleWithDb = sampleToRun as ISampleWithDatabase;
-            if (sampleWithDb != null)
+            var sampleWithMoviesDb = sampleToRun as IMovieSample;
+            if (sampleWithMoviesDb != null)
             {
-                var db = client.GetDatabase(_config.SampleDatabaseName);
-                await sampleWithDb.RunAsync(db, _config);
+                var db = client.GetDatabase(_config.SampleMoviesDatabaseName);
+                var coll = db.GetCollection<Movie>("movies");
+                await sampleWithMoviesDb.RunAsync(coll, db, _config);
+                return;
+            }
+            var sampleWithRestaurantsDb = sampleToRun as IRestaurantsSample;
+            if (sampleWithRestaurantsDb != null)
+            {
+                var db = client.GetDatabase(_config.SampleRestaurantsDatabaseName);
+                var coll = db.GetCollection<Restaurant>("restaurants");
+                await sampleWithRestaurantsDb.RunAsync(coll, db, _config);
                 return;
             }
             var sampleWithClient = sampleToRun as ISampleWithClient;
@@ -46,7 +56,7 @@ namespace Samples.Base
                 await sampleWithClient.RunAsync(client, _config);
                 return;
             }
-            throw new InvalidOperationException($"{sampleToRun.GetType().FullName} does not implement ISampleWithClient or ISampleWithDatabase.");
+            throw new InvalidOperationException($"{sampleToRun.GetType().FullName} does not implement ISampleWithClient, IMovieSample or IRestaurantsSample.");
         }
 
         private ISample GetSampleToRun()

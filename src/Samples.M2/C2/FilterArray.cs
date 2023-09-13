@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 
 namespace Samples.M2.C2
 {
-    internal class FilterArray : ISampleWithDatabase
+    internal class FilterArray : IMovieSample
     {
-        public async Task RunAsync(IMongoDatabase db, Configuration config)
+        public async Task RunAsync(IMongoCollection<Movie> movies, IMongoDatabase db, Configuration config)
         {
-            var movies = db.GetCollection<Movie>("movies");
             var fltrBldr = Builders<Movie>.Filter;
 
             // { languages: "German" }

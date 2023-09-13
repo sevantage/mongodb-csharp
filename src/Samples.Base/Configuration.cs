@@ -10,7 +10,9 @@ namespace Samples.Base
     {
         public string ConnectionString { get; set; } = "mongodb://localhost:27017";
 
-        public string SampleDatabaseName { get; set; } = "sample_mflix";
+        public string SampleMoviesDatabaseName { get; set; } = "sample_mflix";
+
+        public string SampleRestaurantsDatabaseName { get; set; } = "sample_restaurants";
 
         public string Sample { get; set; } = string.Empty;
     }
