@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
+using Samples.Base.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,13 @@ namespace Samples.Base
         public string Title { get; set; } = string.Empty;
 
         [BsonElement("year")]
+        [BsonSerializer(typeof(YearSerializer))]
         public int Year { get; set; }
+
+        [BsonElement("languages")]
+        public ICollection<string> Languages { get; set; } = new List<string>();
+
+        [BsonElement("genres")]
+        public ICollection<string> Genres { get; set; } = new List<string>();
     }
 }
