@@ -13,6 +13,13 @@ namespace Samples.M3.C2
 {
     internal class UpdateArray : ITestDatabaseSample
     {
+        private readonly ConsoleHelper _consoleHelper;
+
+        public UpdateArray(ConsoleHelper consoleHelper)
+        {
+            _consoleHelper = consoleHelper;
+        }
+
         public async Task RunAsync(IMongoDatabase db, Configuration config)
         {
             var coll = db.GetCollection<TestDocument>("m3c2_updateArray");
@@ -57,7 +64,7 @@ namespace Samples.M3.C2
         {
             var doc = await (await coll.FindAsync(x => x.Id == id)).SingleAsync();
             Console.WriteLine($"Array ({doc.Items.Count}): {JsonSerializer.Serialize(doc.Items)}");
-            Console.WriteLine(new string('-', 50));
+            _consoleHelper.Separator();
         }
 
         public class TestDocument

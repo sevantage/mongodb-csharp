@@ -10,6 +10,7 @@ namespace Samples.Base
         private readonly Configuration _config;
         private readonly ISample[] _samples;
         private readonly Func<Configuration, IMongoClient> _clientBldr;
+        private readonly ConsoleHelper _consoleHelper;
 
         static SampleHost()
         {
@@ -21,18 +22,20 @@ namespace Samples.Base
         public SampleHost(
             IOptions<Configuration> configOptions,
             IEnumerable<ISample> samples,
-            Func<Configuration, IMongoClient> clientBldr)
+            Func<Configuration, IMongoClient> clientBldr,
+            ConsoleHelper consoleHelper)
         {
             _config = configOptions.Value;
             _samples = samples.OrderBy(x => x.GetType().FullName).ToArray();
             _clientBldr = clientBldr;
+            _consoleHelper = consoleHelper;
         }
 
         public Task RunAsync()
         {
             var sampleToRun = GetSampleToRun();
             Console.WriteLine($"Running sample {sampleToRun.GetType().FullName}");
-            Console.WriteLine(new string('-', 50));
+            _consoleHelper.Separator();
             var client = _clientBldr(_config);
 
             switch (sampleToRun)
@@ -79,7 +82,7 @@ namespace Samples.Base
             if (!string.IsNullOrWhiteSpace(_config.Sample))
             {
                 var samples = _samples.Where(x => x.GetType().FullName!.ToLowerInvariant().EndsWith(_config.Sample.ToLowerInvariant()));
-                if (samples.Any())
+                if (!samples.Any())
                     throw new InvalidOperationException($"Sample {_config.Sample} not found");
                 else if (samples.Count() > 1)
                     throw new InvalidOperationException($"Encountered several samples for name {_config.Sample}");
@@ -94,7 +97,10 @@ namespace Samples.Base
                 Console.Write("Please enter number of sample: ");
                 var input = Console.ReadLine();
                 if (int.TryParse(input, out var noOfSample) && noOfSample >= 1 && noOfSample <= _samples.Length)
+                {
+                    Console.WriteLine();
                     return _samples[noOfSample - 1];
+                }
             }
         }
     }

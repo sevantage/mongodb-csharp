@@ -15,13 +15,19 @@ namespace Samples.M3.C1
     internal class InsertOne : ITestDatabaseSample
     {
         private const string CollectionName = "m3c1_insertOne";
+        private readonly ConsoleHelper _consoleHelper;
+
+        public InsertOne(ConsoleHelper consoleHelper)
+        {
+            _consoleHelper = consoleHelper;
+        }
 
         public async Task RunAsync(IMongoDatabase db, Configuration config)
         {
             var coll = db.GetCollection<TestDocument>(CollectionName);
             await coll.DeleteManyAsync(Builders<TestDocument>.Filter.Empty);
 
-            await InsertOneAsync(db, new TestDocument(), "Inserting document with Id == null");
+            await InsertOneAsync(db, new TestDocument(), "Inserting document with Id == null", false);
             await InsertOneAsync(db, new TestDocument(), "Inserting another document with Id == null");
 
             await InsertOneAsync(db, new TestDocumentWithStringId(), "Inserting document with string Id == null");
@@ -32,10 +38,11 @@ namespace Samples.M3.C1
             await InsertOneAsync(db, doc, "Inserting document with same Id value assigned in code");
         }
 
-        private async Task InsertOneAsync<T>(IMongoDatabase db, T doc, string msg)
+        private async Task InsertOneAsync<T>(IMongoDatabase db, T doc, string msg, bool separator = true)
             where T : ITestDocument
         {
-            Console.WriteLine(new string('-', 50));
+            if (separator) 
+                _consoleHelper.Separator();
             var coll = db.GetCollection<T>(CollectionName);
             Console.WriteLine(msg);
             Console.WriteLine($"Id before insert: {doc.Id}");
@@ -46,10 +53,7 @@ namespace Samples.M3.C1
             }
             catch (Exception ex)
             {
-                var color = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(ex.Message);
-                Console.ForegroundColor = color;
+                _consoleHelper.WriteError(ex);
             }
         }
 

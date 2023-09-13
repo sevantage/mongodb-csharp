@@ -13,6 +13,13 @@ namespace Samples.M3.C1
 {
     internal class InsertMany : ITestDatabaseSample
     {
+        private readonly ConsoleHelper _consoleHelper;
+
+        public InsertMany(ConsoleHelper consoleHelper)
+        {
+            _consoleHelper = consoleHelper;
+        }
+
         public async Task RunAsync(IMongoDatabase db, Configuration config)
         {
             var coll = db.GetCollection<TestDocument>("m3c1_insertMany");
@@ -20,13 +27,13 @@ namespace Samples.M3.C1
 
             await InsertManyAsync(coll, true);
 
+            _consoleHelper.Separator();
             await InsertManyAsync(coll, false);
         }
 
         private async Task InsertManyAsync(IMongoCollection<TestDocument> coll, bool ordered)
         {
             var mode = ordered ? "Ordered" : "Unordered";
-            Console.WriteLine(new string('-', 50));
             Console.WriteLine($"InsertMany for mode {mode}");
             var docs = GetDocuments(mode);
             try

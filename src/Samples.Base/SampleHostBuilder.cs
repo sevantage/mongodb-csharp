@@ -48,6 +48,7 @@ namespace Samples.Base
                 .AddUserSecrets(Assembly.GetExecutingAssembly(), true)
                 .Build();
             IServiceCollection services = new ServiceCollection();
+            services.AddSingleton<ConsoleHelper>();
             if (_configureServices != null)
                 services = _configureServices(services);
             services.Configure<Configuration>(config);
