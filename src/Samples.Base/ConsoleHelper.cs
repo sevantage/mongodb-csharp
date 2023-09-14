@@ -10,7 +10,7 @@ namespace Samples.Base
     {
         public virtual void Separator()
         {
-            Console.WriteLine(new string('-', 60));
+            Console.WriteLine(new string('-', 100));
         }
 
         public virtual void WriteError(Exception ex, string additionalText = "")

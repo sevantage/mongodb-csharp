@@ -43,8 +43,10 @@ namespace Samples.M4.C2
                     .SetOnInsert(x => x.EndTime, endTime)
                     .Inc(x => x.Total, m.Value)
                     .Inc(x => x.Count, 1)
+                    .Max(x => x.Max, m.Value)
+                    .Min(x => x.Min, m.Value)
                     .Push(x => x.Measurements, m);
-                await coll.UpdateOneAsync(filter, update, new UpdateOptions() {  IsUpsert = true });
+                await coll.UpdateOneAsync(filter, update, new UpdateOptions() { IsUpsert = true });
             }
 
             var options = new FindOptions<MeasurementsPerHour, MeasurementsPerHour>()
@@ -52,9 +54,24 @@ namespace Samples.M4.C2
                 Sort = Builders<MeasurementsPerHour>.Sort.Ascending(x => x.StartTime),
             };
             var measurementsPerHour = (await coll.FindAsync(FilterDefinition<MeasurementsPerHour>.Empty, options)).ToEnumerable();
+            Console.WriteLine(string.Join(
+                "\t",
+                "Sensor".PadRight(9),
+                "Start time".PadRight(19),
+                "Count",
+                "Avg",
+                "Max",
+                "Min"));
             foreach (var mPerHour in measurementsPerHour)
             {
-                Console.WriteLine(string.Join("\t", mPerHour.Sensor, mPerHour.StartTime, mPerHour.Count, (mPerHour.Total / (float)mPerHour.Count).ToString("F2")));
+                Console.WriteLine(string.Join(
+                    "\t",
+                    mPerHour.Sensor,
+                    mPerHour.StartTime,
+                    mPerHour.Count,
+                    (mPerHour.Total / (float)mPerHour.Count).ToString("F2"),
+                    mPerHour.Max,
+                    mPerHour.Min));
             }
         }
 
@@ -72,6 +89,10 @@ namespace Samples.M4.C2
             public int Total { get; set; }
 
             public int Count { get; set; }
+
+            public int Max { get; set; }
+
+            public int Min { get; set; }
 
             public ICollection<Measurement> Measurements { get; set; } = new List<Measurement>();
         }
