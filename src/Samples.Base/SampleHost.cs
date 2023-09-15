@@ -51,8 +51,10 @@ namespace Samples.Base
                     return RunSampleAsync(client, testSample);
                 case ISampleWithClient clientSample:
                     return RunSampleAsync(client, clientSample);
+                case ISampleWithConfig configSample:
+                    return RunSampleAsync(configSample);
             }
-            throw new InvalidOperationException($"{sampleToRun.GetType().FullName} does not implement ISampleWithClient, IMovieSample or IRestaurantsSample.");
+            throw new InvalidOperationException($"{sampleToRun.GetType().FullName} does not implement ÎSampleWithConfig, ISampleWithClient, IMovieSample or IRestaurantsSample.");
         }
 
         private Task RunSampleAsync(IMongoClient client, IMovieSample movieSample)
@@ -73,6 +75,11 @@ namespace Samples.Base
         {
             var db = client.GetDatabase(_config.TestDatabaseName);
             return testSample.RunAsync(db, _config);
+        }
+
+        private Task RunSampleAsync(ISampleWithConfig configSample)
+        {
+            return configSample.RunAsync(_config);
         }
 
         private Task RunSampleAsync(IMongoClient client, ISampleWithClient clientSample)

@@ -11,6 +11,11 @@ namespace Samples.Base
     {
     }
 
+    public interface ISampleWithConfig : ISample
+    {
+        Task RunAsync(Configuration config);
+    }
+
     public interface ISampleWithClient : ISample
     {
         Task RunAsync(IMongoClient client, Configuration config);
