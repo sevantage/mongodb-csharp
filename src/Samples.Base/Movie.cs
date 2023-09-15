@@ -30,5 +30,18 @@ namespace Samples.Base
 
         [BsonElement("num_mflix_comments")]
         public int NumberOfComments { get; set; }
+
+        [BsonElement("imdb")]
+        public Imdb Imdb { get; set; } = new();
+    }
+
+    [BsonIgnoreExtraElements]
+    public class Imdb
+    {
+        [BsonElement("rating")]
+        public double Rating { get; set; }
+
+        [BsonElement("votes")]
+        public int Votes { get; set; }
     }
 }

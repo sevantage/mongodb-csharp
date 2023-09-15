@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Samples.Base.Serialization
 {
-    internal class YearSerializer : IBsonSerializer
+    public class YearSerializer : IBsonSerializer
     {
         public Type ValueType => typeof(int);
 
@@ -26,7 +26,7 @@ namespace Samples.Base.Serialization
 
         public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object value)
         {
-            throw new NotImplementedException();
+            context.Writer.WriteInt32((int)value);
         }
     }
 }
