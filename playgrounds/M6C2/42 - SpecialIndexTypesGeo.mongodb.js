@@ -1,27 +1,41 @@
-use("sample_mflix");
+use("sample_restaurants");
 
-// Drop index
-db.movies.dropIndex("type_1_title_1_year_1");
+db.restaurants.createIndex({
+  "address.coord": "2dsphere",
+});
 
-// Query: movies, sorted by title, between 1970 & 1979
-// IXSCAN, FETCH, SORT
-db.movies
-  .find(
-    { type: "movie", year: { $gte: 1970, $lte: 1979 } },
-    {},
-    { sort: { title: 1 } }
-  )
-  .explain("executionStats");
+// # of restaurants within an area around Empire State Building.
+db.restaurants
+  .find({
+    "address.coord": {
+      $geoWithin: {
+        $geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [-73.986891, 40.751093],
+              [-73.980432, 40.748427],
+              [-73.985067, 40.742136],
+              [-73.991461, 40.744786],
+              [-73.986891, 40.751093],
+            ],
+          ],
+        },
+      },
+    },
+  })
+  .count();
 
-// // Create an index supporting ESR
-// db.movies.createIndex({ type: 1, title: 1, year: 1 });
-
-// // Query: movies, sorted by title, between 1970 & 1979
-// // IXSCAN, FETCH
-// db.movies
-//   .find(
-//     { type: "movie", year: { $gte: 1970, $lte: 1979 } },
-//     {},
-//     { sort: { title: 1 } }
-//   )
-//   .explain("executionStats");
+// Restaurants with a max distance of 100 meters to Chrysler Building
+db.restaurants
+  .find({
+    "address.coord": {
+      $near: {
+        $geometry: {
+          type: "Point",
+          coordinates: [-73.9795807, 40.7610219],
+        },
+        $maxDistance: 100,
+      },
+    },
+  }, { _id: 0, name: 1, cuisine: 1 });
