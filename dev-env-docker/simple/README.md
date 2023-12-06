@@ -1,0 +1,4 @@
+1. Download sample data
+2. Move sample data to ./data
+3. Open console in container, e.g. docker exec -it simple-mongo-1 /bin/bash
+4. Import sample data into cluster: mongorestore --archive=/var/data/sampledata.archive
