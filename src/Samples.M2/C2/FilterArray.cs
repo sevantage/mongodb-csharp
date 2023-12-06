@@ -16,19 +16,19 @@ namespace Samples.M2.C2
 
             // { languages: "German" }
             var moviesInGerman = await (await movies.FindAsync(fltrBldr.AnyEq(x => x.Languages, "German"))).ToListAsync();
-            Console.WriteLine($"Found {moviesInGerman.Count} in german");
+            Console.WriteLine($"Found {moviesInGerman.Count} in German");
 
             // { languages: [ "English", "German" ] }
             var moviesInEnglishAndGerman = await (await movies.FindAsync(x => x.Languages == new List<string>() { "English", "German" })).ToListAsync();
-            Console.WriteLine($"Found {moviesInEnglishAndGerman.Count} in english and german");
+            Console.WriteLine($"Found {moviesInEnglishAndGerman.Count} in English and German");
 
             // { languages: [ "German", "English" ] }
             var moviesInGermanAndEnglish = await (await movies.FindAsync(x => x.Languages == new List<string>() { "German", "English" })).ToListAsync();
-            Console.WriteLine($"Found {moviesInGermanAndEnglish.Count} in german and english");
+            Console.WriteLine($"Found {moviesInGermanAndEnglish.Count} in German and English");
 
             // { languages: { $all: [ "German", "English" ] } }
             var moviesContainingBothEnglishAndGerman = await (await movies.FindAsync(fltrBldr.All(x => x.Languages, new string[] { "German", "English" }))).ToListAsync();
-            Console.WriteLine($"Found {moviesContainingBothEnglishAndGerman.Count} having both an english and a german translation");
+            Console.WriteLine($"Found {moviesContainingBothEnglishAndGerman.Count} having both an English and a German translation");
         }
     }
 }
