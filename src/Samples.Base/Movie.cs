@@ -33,6 +33,9 @@ namespace Samples.Base
 
         [BsonElement("imdb")]
         public Imdb Imdb { get; set; } = new();
+
+        [BsonElement("cast")]
+        public ICollection<string> Cast { get; set; } = new List<string>();
     }
 
     [BsonIgnoreExtraElements]

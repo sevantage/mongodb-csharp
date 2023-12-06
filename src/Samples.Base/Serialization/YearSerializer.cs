@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 
 namespace Samples.Base.Serialization
 {
-    public class YearSerializer : IBsonSerializer
+    public class YearSerializer : SerializerBase<int>
     {
-        public Type ValueType => typeof(int);
-
-        public object Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+        public override int Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
         {
             if (context.Reader.CurrentBsonType == MongoDB.Bson.BsonType.Int32)
                 return context.Reader.ReadInt32();
@@ -24,9 +22,9 @@ namespace Samples.Base.Serialization
             throw new InvalidOperationException("Encountered invalid BSON type.");
         }
 
-        public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object value)
+        public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, int value)
         {
-            context.Writer.WriteInt32((int)value);
+            context.Writer.WriteInt32(value);
         }
     }
 }
