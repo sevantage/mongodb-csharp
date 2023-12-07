@@ -23,6 +23,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Practice", "Practice", "{0D79BF5A-6989-4210-A9A7-03A67750FA11}"
 	ProjectSection(SolutionItems) = preProject
 		_Practice\M2-read-data.md = _Practice\M2-read-data.md
+		_Practice\M3-write-data.md = _Practice\M3-write-data.md
 	EndProjectSection
 EndProject
 Global
