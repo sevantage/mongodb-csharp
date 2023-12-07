@@ -18,8 +18,19 @@ namespace Samples.Base
         [BsonElement("name")]
         public string Name { get; set; } = string.Empty;
 
+        [BsonElement("borough")]
+        public string Borough { get; set; } = string.Empty;
+
+        [BsonElement("cuisine")]
+        public string Cuisine { get; set; } = string.Empty;
+
         [BsonElement("grades")]
         public ICollection<Rating> Grades { get; set; } = new List<Rating>();
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 
     [BsonIgnoreExtraElements]

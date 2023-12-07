@@ -36,6 +36,11 @@ namespace Samples.Base
 
         [BsonElement("cast")]
         public ICollection<string> Cast { get; set; } = new List<string>();
+
+        public override string ToString()
+        {
+            return Title; 
+        }
     }
 
     [BsonIgnoreExtraElements]
