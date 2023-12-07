@@ -35,15 +35,15 @@ namespace Samples.M3.C2
             var filter = Builders<TestDocument>.Filter.Eq(x => x.Id, doc.Id);
             // Add to set
             var result = await coll.UpdateOneAsync(filter, Builders<TestDocument>.Update.AddToSet(x => x.Items, new Item() { Key = "A", Value = 0 }));
-            Console.WriteLine($"AddToSet matched {result.MatchedCount} documents and modified {result.ModifiedCount} documents");
+            Console.WriteLine($"AddToSet (A-0) matched {result.MatchedCount} documents and modified {result.ModifiedCount} documents");
             await PrintArray(coll, doc.Id);
             // Push
             result = await coll.UpdateOneAsync(filter, Builders<TestDocument>.Update.Push(x => x.Items, new Item() { Key = "A", Value = 0 }));
-            Console.WriteLine($"Push matched {result.MatchedCount} documents and modified {result.ModifiedCount} documents");
+            Console.WriteLine($"Push (A-0) matched {result.MatchedCount} documents and modified {result.ModifiedCount} documents");
             await PrintArray(coll, doc.Id);
             // Pull
             result = await coll.UpdateOneAsync(filter, Builders<TestDocument>.Update.Pull(x => x.Items, new Item() { Key = "A", Value = 0 }));
-            Console.WriteLine($"Pull matched {result.MatchedCount} documents and modified {result.ModifiedCount} documents");
+            Console.WriteLine($"Pull (A-0) matched {result.MatchedCount} documents and modified {result.ModifiedCount} documents");
             await PrintArray(coll, doc.Id);
             // PullAll
             result = await coll.UpdateOneAsync(filter, Builders<TestDocument>.Update.PullAll(x => x.Items, new Item[]
@@ -52,18 +52,20 @@ namespace Samples.M3.C2
                 new () { Key = "B", Value = 1 },
                 new () { Key = "C", Value = 2 },
             }));
-            Console.WriteLine($"PullAll matched {result.MatchedCount} documents and modified {result.ModifiedCount} documents");
+            Console.WriteLine($"PullAll (A-0, B-1, C-2) matched {result.MatchedCount} documents and modified {result.ModifiedCount} documents");
             await PrintArray(coll, doc.Id);
             // PullFilter
             result = await coll.UpdateOneAsync(filter, Builders<TestDocument>.Update.PullFilter(x => x.Items, x => x.IsEven));
-            Console.WriteLine($"PullFilter matched {result.MatchedCount} documents and modified {result.ModifiedCount} documents");
+            Console.WriteLine($"PullFilter (IsEven) matched {result.MatchedCount} documents and modified {result.ModifiedCount} documents");
             await PrintArray(coll, doc.Id);
         }
 
         private async Task PrintArray(IMongoCollection<TestDocument> coll, string id)
         {
             var doc = await (await coll.FindAsync(x => x.Id == id)).SingleAsync();
-            Console.WriteLine($"Array ({doc.Items.Count}): {JsonSerializer.Serialize(doc.Items)}");
+            Console.WriteLine($"Array ({doc.Items.Count}):");
+            foreach (var item in doc.Items)
+                Console.WriteLine($"{item.Key}-{item.Value}");
             _consoleHelper.Separator();
         }
 
