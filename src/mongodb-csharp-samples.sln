@@ -11,9 +11,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples.M3", "Samples.M3\Sa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples.M4", "Samples.M4\Samples.M4.csproj", "{7BDF8772-9F72-43B0-9083-C5AEA14BC0AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.M5", "Samples.M5\Samples.M5.csproj", "{0924D8ED-5C85-493B-8F1E-12394C1D2A97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples.M5", "Samples.M5\Samples.M5.csproj", "{0924D8ED-5C85-493B-8F1E-12394C1D2A97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.M6", "Samples.M6\Samples.M6.csproj", "{6766C35B-2CC0-4D70-AE0B-4392B5B5019F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples.M6", "Samples.M6\Samples.M6.csproj", "{6766C35B-2CC0-4D70-AE0B-4392B5B5019F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3CAF8450-EC48-4B9B-BFDF-33E993F70553}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
