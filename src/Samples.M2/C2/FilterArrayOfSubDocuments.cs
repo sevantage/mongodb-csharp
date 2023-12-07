@@ -25,6 +25,10 @@ namespace Samples.M2.C2
             // { "grades": { "$elemMatch": { "score": { "$gte": 10 }, "grade": "A" } } }
             var sameRatingWithScoreGte10AndGradeA = await (await restaurants.FindAsync(fltrBldr.ElemMatch(x => x.Grades, x => x.Score >= 10 && x.Grade == "A"))).ToListAsync();
             Console.WriteLine($"Found {sameRatingWithScoreGte10AndGradeA.Count()} restaurants having a rating with a score >= 10 and grade == A at the same time");
+
+            // Linq version
+            var sameRatingWithScoreGte10AndGradeALinq = await (await restaurants.FindAsync(x => x.Grades.Any(y => y.Score >= 10 && y.Grade == "A"))).ToListAsync();
+            Console.WriteLine($"Found {sameRatingWithScoreGte10AndGradeALinq.Count()} restaurants having a rating with a score >= 10 and grade == A at the same time");
         }
     }
 }
