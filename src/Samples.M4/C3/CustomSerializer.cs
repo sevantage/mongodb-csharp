@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using Samples.Base;
 using System;
@@ -40,17 +41,15 @@ namespace Samples.M4.C3
             public CustomValue CustomValue { get; set; } = new CustomValue(123);
         }
 
-        public class CustomValueSerializer : IBsonSerializer
+        public class CustomValueSerializer : SerializerBase<CustomValue> 
         {
-            public Type ValueType => typeof(CustomValue);
-
-            public object Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+            public override CustomValue Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
             {
                 var value = context.Reader.ReadInt32();
                 return new CustomValue(value);
             }
 
-            public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object value)
+            public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, CustomValue value)
             {
                 context.Writer.WriteInt32(((CustomValue)value).Value);
             }
