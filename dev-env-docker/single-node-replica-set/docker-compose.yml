@@ -4,7 +4,7 @@ services:
 
   mongo-rs:
     image: mongo
-    restart: always
+    restart: unless-stopped
     ports:
       - 27017:27017
     command: ["--replSet", "rs0", "--bind_ip_all"]
