@@ -15,7 +15,7 @@ namespace Samples.M2.C2
             var searchText = "tHe gOdFaThEr";
             var binaryResult = await (await movies.FindAsync(x => x.Title == searchText)).ToListAsync();
             PrintResult(binaryResult, "Binary comparison");
-            
+
             var collEn = new Collation("en");
             var enResult = await (await movies.FindAsync(x => x.Title == searchText, new FindOptions<Movie, Movie>() { Collation = collEn })).ToListAsync();
             PrintResult(enResult, "Comparison using collation EN");
@@ -28,6 +28,10 @@ namespace Samples.M2.C2
         {
             var output = movies.Any() ? "a" : "no";
             Console.WriteLine($"{text} found {output} movie");
+            foreach (var movie in movies)
+            {
+                Console.WriteLine(movie.Title);
+            }
         }
     }
 }
