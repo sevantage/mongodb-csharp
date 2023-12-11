@@ -22,8 +22,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Practice", "Practice", "{0D79BF5A-6989-4210-A9A7-03A67750FA11}"
 	ProjectSection(SolutionItems) = preProject
-		_Practice\M2-read-data.md = _Practice\M2-read-data.md
+		_Practice\M2C1-connect.md = _Practice\M2C1-connect.md
+		_Practice\M2C2-read-data.md = _Practice\M2C2-read-data.md
 		_Practice\M3-write-data.md = _Practice\M3-write-data.md
+		_Practice\M4C1-data-modelling.md = _Practice\M4C1-data-modelling.md
+		_Practice\M4C2-patterns.md = _Practice\M4C2-patterns.md
+		_Practice\M4C3-class-maps.md = _Practice\M4C3-class-maps.md
+		_Practice\M5C1-aggregations-overview.md = _Practice\M5C1-aggregations-overview.md
+		_Practice\M5C2-aggregations-csharp.md = _Practice\M5C2-aggregations-csharp.md
+		_Practice\M6-indexes.md = _Practice\M6-indexes.md
 	EndProjectSection
 EndProject
 Global
