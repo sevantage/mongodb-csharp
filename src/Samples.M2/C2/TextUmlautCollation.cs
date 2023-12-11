@@ -35,13 +35,22 @@ namespace Samples.M2.C2
                 {
                     Console.WriteLine(doc.Id);
                 }
+                Console.WriteLine($"Searching for S using collation {collation.Locale} with strength {collation.Strength}:");
+                result = (await coll.FindAsync(
+                    x => x.Id == "S",
+                    new FindOptions<TestDocument, TestDocument>() { Collation = collation }))
+                    .ToEnumerable();
+                foreach( var doc in result)
+                {
+                    Console.WriteLine(doc.Id);
+                }
             }
         }
 
         private async Task GenerateDataAsync(IMongoCollection<TestDocument> coll)
         {
             await coll.DeleteManyAsync(FilterDefinition<TestDocument>.Empty);
-            var docs = new string[] { "A", "Ä", "a", "ä" }
+            var docs = new string[] { "A", "Ä", "a", "ä", "S", "s", "ß" }
                 .Select(x => x.ToString()).Select(x => new TestDocument() { Id = x });
             await coll.InsertManyAsync(docs);
         }
