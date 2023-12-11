@@ -18,6 +18,9 @@ namespace Samples.M2.C2
             var moviesInGerman = await (await movies.FindAsync(fltrBldr.AnyEq(x => x.Languages, "German"))).ToListAsync();
             Console.WriteLine($"Found {moviesInGerman.Count} in German");
 
+            var moviesInGermanLambda = await (await movies.FindAsync(x => x.Languages.Contains("German"))).ToListAsync();
+            Console.WriteLine($"Found {moviesInGermanLambda.Count} in German (LAMBDA)");
+
             // { languages: [ "English", "German" ] }
             var moviesInEnglishAndGerman = await (await movies.FindAsync(x => x.Languages == new List<string>() { "English", "German" })).ToListAsync();
             Console.WriteLine($"Found {moviesInEnglishAndGerman.Count} in English and German");
