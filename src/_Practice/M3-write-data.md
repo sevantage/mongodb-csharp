@@ -1,7 +1,7 @@
 # Daten schreiben
 Erzeuge Deine eigene Film-Datenbank (alternativ: Restaurant-Datenbank). Arbeite auf einer neuen Datenbank "mymoviedb". Verwende die Klasse Movie aus den Samples.
 
-- Füge Deinen Lieblingsfilm in eine Collection "mymovies" ein, zunächst mit der Sprache English und einem Darsteller ein
+- Füge Deinen Lieblingsfilm in eine Collection "mymovies" ein, zunächst mit der Sprache English und einem Darsteller
 - Füge weitere drei Filme mit einem unordered Bulk-Insert ein (ebenfalls nur mit der Sprache Englisch)
 - Aktualisiere Deinen Lieblingsfilm und füge die Sprache Deutsch im Array ein
 - Aktualisiere alle Filme und füge die Sprache Deutsch hinzu, egal ob sie bereits existiert
