@@ -36,6 +36,8 @@ namespace Samples.M3.C3
 
                     await coll.UpdateOneAsync(session, x => x.Value == 7, Builders<TestDocument>.Update.Set(x => x.Name, "New name 7"));
 
+                    var findResult = await (await coll.FindAsync(session, x => x.Value == 7)).FirstOrDefaultAsync();
+
                     await session.CommitTransactionAsync();
                 }
                 finally
