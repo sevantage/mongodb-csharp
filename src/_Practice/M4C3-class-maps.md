@@ -29,7 +29,7 @@ Konfiguriere die ClassMap, so dass folgendes Schema erreicht wird (deklarativ/im
 {
     "_id": ObjectId("<Id>"),
     "name": "<Name>", 
-    "myGuid": "<MyGuid>", 
+    "myGuid": Binary("<MyGuid>"), 
     "timestamp": ISODate("<Timestamp>"),
     "count": 4, 
     "total": 10,
